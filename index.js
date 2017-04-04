@@ -1,17 +1,14 @@
-//Alex's appId and appKey
-var appId = '5233da9c';
-var appKey = '2b335d0e9fed977f20895d80fa90e079';
-
 var express = require('express')
 var app = express()
 var http = require('http')
 var https = require('https')
+var json = require('./secrets.json');
 
 app.get('/upc/:upcCode', function(req, res) {
 	//details of api call with upc code
 	var options = {
 	  host: "api.nutritionix.com",
-	  path: '/v1_1/item?upc='+req.params.upcCode+'&appId='+appId+'&appKey='+appKey,
+	  path: '/v1_1/item?upc='+req.params.upcCode+'&appId='+json.nutritionix.users.alex.id+'&appKey='+json.nutritionix.users.alex.key,
 	  method: 'GET',
 	};
 

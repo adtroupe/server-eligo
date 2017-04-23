@@ -3,7 +3,6 @@ var app = express()
 var http = require('http')
 var https = require('https')
 var json = require('./secrets.json');
-var fire = require('firebase');
 
 app.get('/upc/:upcCode', function(req, res) {
 	//details of api call with upc code

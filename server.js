@@ -31,7 +31,7 @@ app.get('/upc/:upcCode', function(req, res) {
 
 
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]
-app.listen(process.env.PORT || 8080, function () {
+var server = app.listen(process.env.PORT || 8080, function () {
 	var port = server.address().port;
 	console.log('Example app listening on port ', port)
 })

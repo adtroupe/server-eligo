@@ -19,12 +19,11 @@ app.get('/upc/:upcCode', function(req, res) {
 		//receives data and appends to str
 		response.on('data', function (chunk) {
 			str += chunk;
-			ingredients += chunk.nf_ingredients_statement;
 		});
 
 		//response has been sent back
 		response.on('end', function () {
-			res.send(ingredients)
+			res.send(str)
 		});
 	};
 	https.request(options, callback).end();

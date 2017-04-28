@@ -17,13 +17,13 @@ app.get('/upc/:upcCode', function(req, res) {
 
 		//receives data and appends to str
 		response.on('data', function (chunk) {
-		str += chunk;
+			str += chunk;
+			console.log(str);
 		});
 
 		//response has been sent back
 		response.on('end', function () {
-			console.log(str);
-			res.send(str);
+			res.send(str)
 		});
 	};
 	https.request(options, callback).end();

@@ -14,16 +14,17 @@ app.get('/upc/:upcCode', function(req, res) {
 
 	callback = function(response) {
 		var str = '';
+		var ingredients = '';
 
 		//receives data and appends to str
 		response.on('data', function (chunk) {
 			str += chunk;
-			console.log(str);
+			ingredients += chunk.nf_ingredients_statement;
 		});
 
 		//response has been sent back
 		response.on('end', function () {
-			res.send(str)
+			res.send(ingredients)
 		});
 	};
 	https.request(options, callback).end();

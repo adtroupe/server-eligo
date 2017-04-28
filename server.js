@@ -22,7 +22,8 @@ app.get('/upc/:upcCode', function(req, res) {
 
 		//response has been sent back
 		response.on('end', function () {
-			res.send(str)
+			console.log(str);
+			res.send(str);
 		});
 	};
 	https.request(options, callback).end();

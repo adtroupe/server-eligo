@@ -25,7 +25,6 @@ app.get('/upc/:upcCode', function(req, res) {
 			res.send(str)
 		});
 	};
-	alert(str);
 	https.request(options, callback).end();
 })
 

@@ -1,0 +1,35 @@
+{
+  "restrictions" : {
+    "dairy" : [
+      "milk","cream","creamer","sherbet","cheese","butter","buttermilk","custard","lactose","whey","caseinate","nougat","casein","curd","diacetyl","ghee","half-and-half","lactalbumin","llactoferrin","lactulose","pudding","recaldent","tagatose","yogurt","yoghurt"
+    ], 
+    "soy" : [
+      "edamame","miso","natto","shoyu","soy","soya","soybean","tamari","tempeh","TVP","tofu"
+    ], 
+    "gluten" : [
+      "rye","barley","triticale","malt","brewer's yeast","bread","bulgur","couscous","durum","einkorn","emmer","farina","flour","wheat","kamut","matzoh","pasta","seitan","semolina","spelt"
+    ],
+    "peanut" : [
+      "peanut","nut"
+    ],
+    "tree nut" : [
+      "almond","brazil nut","artificial nut","beechnut","butternut","cashew","chestnut","chiniquapin","filbert","hazelnut","gianduja","ginkgo","hickory","litchi nut","lichee nut","lychee nut","macadamia","marzipan","nangai","nut","pecan","pesto","pili","pine nut","pistachio","praline","shea","walnut"
+    ],
+    "egg" : [
+      "albumin","albumen","egg","yolk","eggnog","lysozyme","mayonnaise","meringue","ovalbumin","surimi"
+    ],
+    "wheat" : [
+      "bread","bulgur","cereal","couscous","cracker","durum","einkorn","emmer","farina","flour","wheat","kamut","matzoh","pasta","seitan","semolina","spelt","triticale"
+    ],
+    "fish" : [
+      "anchovy","bass","catfish","cod","flounder","grouper","haddock","hake","halibut","herring","mahi","perch","pike","pollock","salmon","scrod","swordfish","sole","snapper","tilapia","trout","tuna","fish"
+    ],
+    "shellfish" : [
+      "barnacle","crab","crawfish","crawdad","crayfish","ecrevisse","krill","lobster","langouste","langoustine","scampi","tomalley","prawn","shrimp","crevette","shellfish"
+    ],
+    "sesame" : [
+      "benne","benniseed","gingelly","gomasio","halvah","sesame","sesamol","sesamum","sesemolina","sim sim","tahini","tahina","tehina","til"
+    ]
+  }
+}
+

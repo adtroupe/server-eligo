@@ -3,16 +3,16 @@ var app = express()
 var http = require('http')
 var https = require('https')
 var json = require('./secrets.json');
-var admin = require("firebase-admin");
-var serviceAccount = require("path/to/serviceAccountKey.json");
+var firebase = require('firebase');
 
 app.get('/upc/:upcCode', function(req, res) {
-	admin.initializeApp({
-		credential: admin.credential.cert(serviceAccount),
-		databaseURL: "https://eligo-ca1b0.firebaseio.com"
-	});
+	var config = {
+		apiKey: "AIzaSyDa7CpASbxArYtrSARNkJy36FmuHdm7GpU",
+		databaseURL: "https://eligo-ca1b0.firebaseio.com",
+	};
+	firebase.initializeApp(config);
 
-	var drti = admin.database().ref('/drti');
+	var drti = firebase.database().ref('/drti');
 	var egg = drti.once('restrictions').then(function(snapshot) {
 		snapshot.val().egg;
 	});

@@ -14,7 +14,9 @@ firebase.initializeApp(config);
 function getDrtiInfo(cb) {
 	var drtiRef = firebase.database().ref("/drti");
 	drtiRef.on('value', function(snapshot) {
-		cb(JSON.stringify(snapshot.child("restrictions").val()));
+		return snapshot.child("restrictions").val();
+	}).then(function(data) {
+		console.log(data);
 	});
 };
 

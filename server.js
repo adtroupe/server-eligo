@@ -3,8 +3,20 @@ var app = express()
 var http = require('http')
 var https = require('https')
 var json = require('./secrets.json');
+var admin = require("firebase-admin");
+var serviceAccount = require("path/to/serviceAccountKey.json");
 
 app.get('/upc/:upcCode', function(req, res) {
+	admin.initializeApp({
+		credential: admin.credential.cert(serviceAccount),
+		databaseURL: "https://eligo-ca1b0.firebaseio.com"
+	});
+
+	var drti = admin.database().ref('/drti');
+	var egg = drti.once('restrictions').then(function(snapshot) {
+		snapshot.val().egg;
+	});
+
 	//details of api call with upc code
 	// var options = {
 	//   host: "api.nutritionix.com",
@@ -27,11 +39,11 @@ app.get('/upc/:upcCode', function(req, res) {
 			str += chunk;
 		});
 
-		//response has been sent back
+		//on end of api call, json sent
 		response.on('end', function () {
 			var ingredients = JSON.parse(str).nf_ingredient_statement;
-			var ingArray = ingredients.split(', ');
-			res.send(ingArray);
+			var ingArray = ingredients.split(', ').replace();
+			res.send(ingArray + '-->' + egg);
 		});
 	};
 	https.request(options, callback).end();

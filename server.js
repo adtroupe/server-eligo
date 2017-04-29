@@ -6,15 +6,20 @@ var json = require('./secrets.json');
 
 app.get('/upc/:upcCode', function(req, res) {
 	//details of api call with upc code
+	// var options = {
+	//   host: "api.nutritionix.com",
+	//   path: '/v1_1/item?upc='+req.params.upcCode+'&appId='+json.nutritionix.users.alex.id+'&appKey='+json.nutritionix.users.alex.key,
+	//   method: 'GET',
+	// };
+
 	var options = {
-	  host: "api.nutritionix.com",
-	  path: '/v1_1/item?upc='+req.params.upcCode+'&appId='+json.nutritionix.users.alex.id+'&appKey='+json.nutritionix.users.alex.key,
+	  host: "students.washington.edu",
+	  path: '/adtroupe/capstone/example.json',
 	  method: 'GET',
 	};
 
 	callback = function(response) {
 		var str = '';
-		var ingredients = '';
 
 		//receives data and appends to str
 		response.on('data', function (chunk) {

@@ -14,10 +14,11 @@ app.get('/upc/:upcCode', function(req, res) {
 	};
 	firebase.initializeApp(config);
 
-	var egg = firebase.database().ref('/drti/restrictions/' + r);
-	var egg_result = '';
-	var result = egg.once('value').then(function (snapshot) {
-		egg_result = snapshot.val()
+	var ref = firebase.database().ref();
+	ref.on("value", function(snapshot) {
+		console.log(snapshot.val());
+	}, function (error) {
+		console.log("Error: " + error.code);
 	});
 
 	//details of api call with upc code
@@ -46,7 +47,7 @@ app.get('/upc/:upcCode', function(req, res) {
 		response.on('end', function () {
 			var ingredients = JSON.parse(str).nf_ingredient_statement;
 			var ingArray = ingredients.split(', ');
-			res.send(ingArray + '-->' + egg_result);
+			res.send(ingArray);
 		});
 	};
 	https.request(options, callback).end();

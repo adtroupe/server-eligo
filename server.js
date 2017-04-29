@@ -5,7 +5,6 @@ var https = require('https')
 var json = require('./secrets.json');
 var firebase = require('firebase');
 
-var r = 'egg';
 
 app.get('/upc/:upcCode', function(req, res) {
 	var config = {
@@ -14,12 +13,8 @@ app.get('/upc/:upcCode', function(req, res) {
 	};
 	firebase.initializeApp(config);
 
-	var ref = firebase.database().ref();
-	ref.on("value", function(snapshot) {
-		console.log(snapshot.val());
-	}, function (error) {
-		console.log("Error: " + error.code);
-	});
+	var drtiRef = firebase.database().ref("/drti");
+	var results = drtiRef.orderByChild("restrictions").equalTo("egg").toString();
 
 	//details of api call with upc code
 	// var options = {
@@ -47,7 +42,7 @@ app.get('/upc/:upcCode', function(req, res) {
 		response.on('end', function () {
 			var ingredients = JSON.parse(str).nf_ingredient_statement;
 			var ingArray = ingredients.split(', ');
-			res.send(ingArray);
+			res.send(ingArray + " : " + results);
 		});
 	};
 	https.request(options, callback).end();

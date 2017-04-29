@@ -5,17 +5,18 @@ var https = require('https')
 var json = require('./secrets.json');
 var firebase = require('firebase');
 
+var config = {
+	apiKey: "AIzaSyDa7CpASbxArYtrSARNkJy36FmuHdm7GpU",
+	databaseURL: "https://eligo-ca1b0.firebaseio.com",
+};
+firebase.initializeApp(config);
+
+var drtiRef = firebase.database().ref("/drti");
+var results = drtiRef.orderByChild("restrictions").equalTo("egg").on("value", function(data) {
+	return data.val();
+});
 
 app.get('/upc/:upcCode', function(req, res) {
-	var config = {
-		apiKey: "AIzaSyDa7CpASbxArYtrSARNkJy36FmuHdm7GpU",
-		databaseURL: "https://eligo-ca1b0.firebaseio.com",
-	};
-	firebase.initializeApp(config);
-
-	var drtiRef = firebase.database().ref("/drti");
-	var results = drtiRef.orderByChild("restrictions").equalTo("egg").on("value");
-
 	//details of api call with upc code
 	// var options = {
 	//   host: "api.nutritionix.com",

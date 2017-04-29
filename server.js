@@ -45,11 +45,11 @@ app.get('/upc/:upcCode', function(req, res) {
 		response.on('end', function () {
 			var ingredients = JSON.parse(str).nf_ingredient_statement;
 			var ingArray = ingredients.split(', ');
-			res.send(ingArray + " : " + getDrtiInfo(function(drti) {return drti;});
-		}));
+			res.send(ingArray + " : " + getDrtiInfo(function(drti) {return drti;}));
+		});
 	};
 	https.request(options, callback).end();
-})
+});
 
 
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]

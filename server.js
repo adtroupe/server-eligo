@@ -12,10 +12,10 @@ var config = {
 firebase.initializeApp(config);
 
 function getDrtiInfo() {
-	var drtiRef = firebase.database().ref("/drti/restrictions");
+	var drtiRef = firebase.database().ref("/drti");
 	drtiRef.once('value').then(function(snapshot) {
-		return snapshot.child("egg").val();
-	})
+		return snapshot.child("restrictions").val();
+	});
 };
 
 app.get('/upc/:upcCode', function(req, res) {

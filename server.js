@@ -11,10 +11,10 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var drtiRef = firebase.database().ref("/drti");
-var results = drtiRef.orderByChild("restrictions").equalTo("egg").on("value", function(data) {
+var drtiRef = firebase.database().ref("/drti/restrictions");
+var results = drtiRef.once('value').then(function(data) {
 	return data.val();
-});
+})
 
 app.get('/upc/:upcCode', function(req, res) {
 	//details of api call with upc code

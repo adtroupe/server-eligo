@@ -11,10 +11,10 @@ var config = {
 };
 firebase.initializeApp(config);
 
-function getDrtiInfo(cb) {
+function getDrtiInfo() {
 	var drtiRef = firebase.database().ref("/drti");
 	drtiRef.on('value', function(snapshot) {
-		console.log(snapshot.child("restrictions").val());
+		return snapshot.child("restrictions").val());
 	});
 };
 
@@ -45,7 +45,7 @@ app.get('/upc/:upcCode', function(req, res) {
 		response.on('end', function () {
 			var ingredients = JSON.parse(str).nf_ingredient_statement;
 			var ingArray = ingredients.split(', ');
-			res.send(ingArray + " : " + getDrtiInfo(function(drti) {return drti;}));
+			res.send(ingArray + " : " + getDrtiInfo());
 		});
 	};
 	https.request(options, callback).end();

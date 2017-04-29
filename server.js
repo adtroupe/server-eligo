@@ -14,9 +14,7 @@ app.get('/upc/:upcCode', function(req, res) {
 	firebase.initializeApp(config);
 
 	var drtiRef = firebase.database().ref("/drti");
-	var results = drtiRef.orderByChild("restrictions").equalTo("egg").on("value", function(snapshot) {
-		return snapshot.val();
-	});
+	var results = drtiRef.orderByChild("restrictions").equalTo("egg").on("value");
 
 	//details of api call with upc code
 	// var options = {

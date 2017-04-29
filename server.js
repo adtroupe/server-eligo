@@ -11,12 +11,14 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var drtiRef = firebase.database().ref("/drti/restrictions");
-var results = drtiRef.once('value').then(function(data) {
-	return data.val();
-})
+
 
 app.get('/upc/:upcCode', function(req, res) {
+	var drtiRef = firebase.database().ref("/drti/restrictions");
+	var results = drtiRef.once('value').then(function(data) {
+		return data.val();
+	})
+
 	//details of api call with upc code
 	// var options = {
 	//   host: "api.nutritionix.com",
@@ -43,7 +45,9 @@ app.get('/upc/:upcCode', function(req, res) {
 		response.on('end', function () {
 			var ingredients = JSON.parse(str).nf_ingredient_statement;
 			var ingArray = ingredients.split(', ');
-			res.send(ingArray + " : " + results);
+			results.on('end', function() {
+				res.send(ingArray + " : " + results);
+			})
 		});
 	};
 	https.request(options, callback).end();

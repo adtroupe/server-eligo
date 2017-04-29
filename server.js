@@ -29,8 +29,9 @@ app.get('/upc/:upcCode', function(req, res) {
 
 		//response has been sent back
 		response.on('end', function () {
-			var ret = JSON.parse(str);
-			res.send(ret.nf_ingredient_statement);
+			var ingredients = JSON.parse(str).nf_ingredient_statement;
+			var ingArray = ingredients.split(', ');
+			res.send(ingArray);
 		});
 	};
 	https.request(options, callback).end();

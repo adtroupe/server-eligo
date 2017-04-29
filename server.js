@@ -43,7 +43,7 @@ app.get('/upc/:upcCode', function(req, res) {
 		response.on('end', function () {
 			var ingredients = JSON.parse(str).nf_ingredient_statement;
 			var ingArray = ingredients.split(', ');
-			res.send(ingArray + " : " + JSON.parse(results));
+			res.send(ingArray + " : " + results);
 		});
 	};
 	https.request(options, callback).end();

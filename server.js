@@ -13,8 +13,8 @@ firebase.initializeApp(config);
 
 function getDrtiInfo() {
 	var drtiRef = firebase.database().ref("/drti/restrictions");
-	var results = drtiRef.once('value').then(function(data) {
-		return data.val();
+	drtiRef.once('value').then(function(snapshot) {
+		return snapshot.child("egg").val();
 	})
 };
 

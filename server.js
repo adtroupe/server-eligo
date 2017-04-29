@@ -12,6 +12,7 @@ app.get('/upc/:upcCode', function(req, res) {
 	//   method: 'GET',
 	// };
 
+	//GET request to personally hosted json file for cocktail peanuts, regardless of upc sent. 
 	var options = {
 	  host: "students.washington.edu",
 	  path: '/adtroupe/capstone/example.json',
@@ -28,7 +29,8 @@ app.get('/upc/:upcCode', function(req, res) {
 
 		//response has been sent back
 		response.on('end', function () {
-			res.send(str)
+			var ret = JSON.parse(str);
+			res.send(ret.nf_ingredient_statement);
 		});
 	};
 	https.request(options, callback).end();

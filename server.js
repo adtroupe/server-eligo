@@ -11,10 +11,10 @@ var config = {
 };
 firebase.initializeApp(config);
 
-function getDrtiInfo(res, req) {
+function getDrtiInfo() {
 	var drtiRef = firebase.database().ref("/drti");
-	drtiRef.once('value').then(function(snapshot) {
-		res.send(snapshot.child("restrictions").val());
+	drtiRef.on('value', function(snapshot) {
+		return JSON.stringify(snapshot.child("restrictions").val());
 	});
 };
 

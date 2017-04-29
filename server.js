@@ -46,7 +46,7 @@ app.get('/upc/:upcCode', function(req, res) {
 			var ingredients = JSON.parse(str).nf_ingredient_statement;
 			var ingArray = ingredients.split(', ');
 			getDrtiInfo(function(item) {
-				res.send(ingArray + " : " + item); 
+				res.send(ingArray + " : " + JSON.stringify(item)); 
 			});
 		});
 	};

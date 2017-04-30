@@ -18,7 +18,7 @@ var user = JSON.parse('{ "0" : ["peanut", "dairy"],' +
 function getDrtiInfo(callback) {
 	var drtiRef = firebase.database().ref("/drti");
 	drtiRef.on('value', function(snapshot) {
-		callback(snapshot.child("restrictions");
+		callback(snapshot.child("restrictions"));
 	});
 };
 

@@ -11,12 +11,44 @@ var config = {
 };
 firebase.initializeApp(config);
 
+var user = JSON.parse('{
+  "0" : ["peanut", "dairy"],
+  "1" : ["soy"],
+  "2" : ["egg"]
+}');
+
 function getDrtiInfo(callback) {
 	var drtiRef = firebase.database().ref("/drti");
 	drtiRef.on('value', function(snapshot) {
 		callback(snapshot.child("restrictions").val());
 	});
 };
+
+function compareRestrictions(str, callback) {
+	var ingredients = JSON.parse(str).nf_ingredient_statement;
+	var ingArray = ingredients.split(', ');	
+	var userAndRestriction = '';
+	getDrtiInfo(function(object) {
+		for (var subuser in user) {
+			subuser.forEach(function(dr) {
+				var drIngredients = object.child(dr.toLowerCase()).val();
+				ingArray.forEach(function(i)) {
+					drIngredients.forEach(function(i2) {
+						var regex = new RegExp("\b"+i2+"\b", "ig");
+						if (regex.test(i)) {
+							if (userAndRestriction != '') {
+								userAndRestriction += "," + i + ":" + dr;
+							} else {
+								userAndRestriction += i + ":" + dr;
+							};
+						};
+					});
+				};
+			});
+		};
+		callback(userAndRestriction);
+	});
+}
 
 app.get('/upc/:upcCode', function(req, res) {
 	//details of api call with upc code
@@ -43,11 +75,17 @@ app.get('/upc/:upcCode', function(req, res) {
 
 		//on end of api call, json sent
 		response.on('end', function () {
-			var ingredients = JSON.parse(str).nf_ingredient_statement;
-			var ingArray = ingredients.split(', ');
-			getDrtiInfo(function(item) {
-				res.send(ingArray + " : " + JSON.stringify(item)); 
+			// var ingredients = JSON.parse(str).nf_ingredient_statement;
+			// var ingArray = ingredients.split(', ');
+
+			compareRestrictions(str, function(results) {
+				res.send(JSON.stringify(results));
 			});
+
+			res.send(str);
+			// getDrtiInfo(function(item) {
+			// 	res.send(ingArray + " : " + JSON.stringify(item)); 
+			// });
 		});
 	};
 	https.request(options, callback).end();

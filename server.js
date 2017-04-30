@@ -22,31 +22,31 @@ function getDrtiInfo(callback) {
 	});
 };
 
-// function compareRestrictions(str, callback) {
-// 	var ingredients = JSON.parse(str).nf_ingredient_statement;
-// 	var ingArray = ingredients.split(', ');	
-// 	var userAndRestriction = '';
-// 	getDrtiInfo(function(object) {
-// 		user.forEach(function(subuser) {
-// 			subuser.forEach(function(dr) {
-// 				var drIngredients = object.child(dr.toLowerCase()).val();
-// 				ingArray.forEach(function(i) {
-// 					drIngredients.forEach(function(i2) {
-// 						var regex = new RegExp("\b"+i2+"\b", "ig");
-// 						if (regex.test(i)) {
-// 							if (userAndRestriction != '') {
-// 								userAndRestriction += "," + i + ":" + dr;
-// 							} else {
-// 								userAndRestriction += i + ":" + dr;
-// 							};
-// 						};
-// 					});
-// 				});
-// 			});
-// 		});
-// 		callback(userAndRestriction);
-// 	});
-// }
+function compareRestrictions(str, callback) {
+	var ingredients = JSON.parse(str).nf_ingredient_statement;
+	var ingArray = ingredients.split(', ');	
+	var userAndRestriction = '';
+	getDrtiInfo(function(object) {
+		for(var subuser in user) {
+			user[subuser].forEach(function(dr) {
+				var drIngredients = object.child(dr.toLowerCase()).val();
+				ingArray.forEach(function(i) {
+					drIngredients.forEach(function(i2) {
+						var regex = new RegExp("\b"+i2+"\b", "ig");
+						if (regex.test(i)) {
+							if (userAndRestriction != '') {
+								userAndRestriction += "," + i + ":" + dr;
+							} else {
+								userAndRestriction += i + ":" + dr;
+							};
+						};
+					});
+				});
+			});
+		};
+		callback(userAndRestriction);
+	});
+}
 
 app.get('/upc/:upcCode', function(req, res) {
 	//details of api call with upc code

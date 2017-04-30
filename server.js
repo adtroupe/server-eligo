@@ -22,31 +22,31 @@ function getDrtiInfo(callback) {
 	});
 };
 
-function compareRestrictions(str, callback) {
-	var ingredients = JSON.parse(str).nf_ingredient_statement;
-	var ingArray = ingredients.split(', ');	
-	var userAndRestriction = '';
-	getDrtiInfo(function(object) {
-		for(var subuser in user) {
-			user[subuser].forEach(function(dr) {
-				var drIngredients = object.child(dr.toLowerCase()).val();
-				ingArray.forEach(function(i) {
-					drIngredients.forEach(function(i2) {
-						var regex = new RegExp("\b"+i2+"\b", "ig");
-						if (regex.test(i)) {
-							if (userAndRestriction != '') {
-								userAndRestriction.concat(",", i, ":", dr);
-							} else {
-								userAndRestriction.concat(i, ":", dr);
-							};
-						};
-					});
-				});
-			});
-		};
-		callback(userAndRestriction);
-	});
-}
+// function compareRestrictions(str, callback) {
+// 	var ingredients = JSON.parse(str).nf_ingredient_statement;
+// 	var ingArray = ingredients.split(', ');	
+// 	var userAndRestriction = '';
+// 	getDrtiInfo(function(object) {
+// 		for(var subuser in user) {
+// 			user[subuser].forEach(function(dr) {
+// 				var drIngredients = object.child(dr.toLowerCase()).val();
+// 				ingArray.forEach(function(i) {
+// 					drIngredients.forEach(function(i2) {
+// 						var regex = new RegExp("\b"+i2+"\b", "ig");
+// 						if (regex.test(i)) {
+// 							if (userAndRestriction != '') {
+// 								userAndRestriction.concat(",", i, ":", dr);
+// 							} else {
+// 								userAndRestriction.concat(i, ":", dr);
+// 							};
+// 						};
+// 					});
+// 				});
+// 			});
+// 		};
+// 		callback(userAndRestriction);
+// 	});
+// }
 
 app.get('/upc/:upcCode', function(req, res) {
 	//details of api call with upc code
@@ -74,12 +74,12 @@ app.get('/upc/:upcCode', function(req, res) {
 		//on end of api call, json sent
 		response.on('end', function () {
 			//Compares restrictions to ingredients
-			compareRestrictions(str, function(results) {
-				res.send(JSON.stringify(results));
-			});
+			// compareRestrictions(str, function(results) {
+			// 	res.send(JSON.stringify(results));
+			// });
 
 			//Gets only api returned string
-			//res.send(user);
+			res.send(user["0"]);
 
 			//Breaks up api ingredients
 			// var ingredients = JSON.parse(str).nf_ingredient_statement;

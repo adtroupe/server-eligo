@@ -79,7 +79,7 @@ app.get('/upc/:upcCode', function(req, res) {
 			// });
 
 			//Gets only api returned string
-			res.send(user["0"] + " : " + user.length + " : " + keys(user).length);
+			res.send(user["0"] + " : " + user.length);
 
 			//Breaks up api ingredients
 			// var ingredients = JSON.parse(str).nf_ingredient_statement;

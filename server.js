@@ -41,7 +41,7 @@ function compareRestrictions(str, callback) {
 							};
 						};
 					});
-				};
+				});
 			});
 		};
 		callback(userAndRestriction);

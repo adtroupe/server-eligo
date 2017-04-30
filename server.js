@@ -11,11 +11,9 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var user = JSON.parse('{
-  "0" : ["peanut", "dairy"],
-  "1" : ["soy"],
-  "2" : ["egg"]
-}');
+var user = JSON.parse('{ "0" : ["peanut", "dairy"],' +
+  '"1" : ["soy"],' +
+  '"2" : ["egg"]}');
 
 function getDrtiInfo(callback) {
 	var drtiRef = firebase.database().ref("/drti");
@@ -78,9 +76,9 @@ app.get('/upc/:upcCode', function(req, res) {
 			// var ingredients = JSON.parse(str).nf_ingredient_statement;
 			// var ingArray = ingredients.split(', ');
 
-			compareRestrictions(str, function(results) {
-				res.send(JSON.stringify(results));
-			});
+			// compareRestrictions(str, function(results) {
+			// 	res.send(JSON.stringify(results));
+			// });
 
 			res.send(str);
 			// getDrtiInfo(function(item) {

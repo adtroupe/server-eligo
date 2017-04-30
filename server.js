@@ -27,7 +27,7 @@ function compareRestrictions(str, callback) {
 	var ingArray = ingredients.split(', ');	
 	var userAndRestriction = '';
 	getDrtiInfo(function(object) {
-		for (var subuser in user) {
+		user.forEach(function(subuser) {
 			subuser.forEach(function(dr) {
 				var drIngredients = object.child(dr.toLowerCase()).val();
 				ingArray.forEach(function(i) {
@@ -43,7 +43,7 @@ function compareRestrictions(str, callback) {
 					});
 				});
 			});
-		};
+		});
 		callback(userAndRestriction);
 	});
 }

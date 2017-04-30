@@ -35,9 +35,9 @@ function compareRestrictions(str, callback) {
 						var regex = new RegExp("\b"+i2+"\b", "ig");
 						if (regex.test(i)) {
 							if (userAndRestriction != '') {
-								userAndRestriction += "," + i + ":" + dr;
+								userAndRestriction.concat(",", i, ":", dr);
 							} else {
-								userAndRestriction += i + ":" + dr;
+								userAndRestriction.concat(i, ":", dr);
 							};
 						};
 					});

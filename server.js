@@ -30,7 +30,7 @@ function compareRestrictions(str, callback) {
 		for (var subuser in user) {
 			subuser.forEach(function(dr) {
 				var drIngredients = object.child(dr.toLowerCase()).val();
-				ingArray.forEach(function(i)) {
+				ingArray.forEach(function(i) {
 					drIngredients.forEach(function(i2) {
 						var regex = new RegExp("\b"+i2+"\b", "ig");
 						if (regex.test(i)) {

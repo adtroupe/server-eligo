@@ -41,8 +41,8 @@ function compareRestrictions(str, callback) {
 				};
 			};
 		};
+		callback(userAndRestriction);
 	});
-	callback(userAndRestriction);
 }
 
 app.get('/upc/:upcCode', function(req, res) {

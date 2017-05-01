@@ -72,7 +72,8 @@ app.get('/upc/:upcCode', function(req, res) {
 		response.on('end', function () {
 			//Compares restrictions to ingredients
 			compareRestrictions(str, function(results) {
-				res.send(results);
+				res.send(JSON.stringify(results));
+				console.log(JSON.stringify(results));
 			});
 
 			//Gets only api returned string

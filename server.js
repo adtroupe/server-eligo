@@ -11,9 +11,8 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var user = JSON.parse('{ "0" : ["peanut", "dairy"],' +
-  '"1" : ["soy"],' +
-  '"2" : ["egg"]}');
+var user = JSON.parse('{ "0" : ["peanut"],' +
+  '"1" : ["soy"]}');
 
 function getDrtiInfo(callback) {
 	var drtiRef = firebase.database().ref("/drti");

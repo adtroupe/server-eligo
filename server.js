@@ -35,8 +35,6 @@ function compareRestrictions(str, callback) {
 						var regex = new RegExp(drIngredients[i2], 'ig');
 						if (regex.test(ingArray[i])) {
 							userAndRestriction = userAndRestriction.concat("***", x, ":", user[x.toString()], ":", drIngredients[i2], ":", ingArray[i]);
-							console.log("^^^" + userAndRestriction);
-							console.log("***", x, ":", user[x.toString()], ":", drIngredients[i2], ":", ingArray[i])
 						};
 					};
 				};
@@ -72,13 +70,12 @@ app.get('/upc/:upcCode', function(req, res) {
 		//on end of api call, json sent
 		response.on('end', function () {
 			//Compares restrictions to ingredients
-			compareRestrictions(str, function(results) {
-				res.send(JSON.stringify(results));
-				console.log(JSON.stringify(results));
-			});
+			// compareRestrictions(str, function(results) {
+			// 	res.send(JSON.stringify(results));
+			// });
 
-			//Gets only api returned string
-			//res.send();
+			Gets only api returned string
+			res.send();
 		});
 	};
 	https.request(options, callback).end();

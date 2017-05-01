@@ -14,6 +14,11 @@ firebase.initializeApp(config);
 var user = JSON.parse('{ "0" : ["peanut"],' +
   '"1" : ["soy"]}');
 
+var userAndRestriction = '';
+var success = function() {
+	return userAndRestriction;
+}
+
 function getDrtiInfo(callback) {
 	var drtiRef = firebase.database().ref("/drti");
 	drtiRef.on('value', function(snapshot) {
@@ -21,10 +26,9 @@ function getDrtiInfo(callback) {
 	});
 };
 
-function compareRestrictions(str, callback) {
+function compareRestrictions(str, callback, success) {
 	var ingredients = JSON.parse(str).nf_ingredient_statement;
 	var ingArray = ingredients.split(', ');	
-	var userAndRestriction = '';
 	getDrtiInfo(function(object) {
 		for(var x = 0; x <= Object.keys(user).length-1; x++) {
 			for (var dr in user[x.toString()]) {
@@ -33,7 +37,7 @@ function compareRestrictions(str, callback) {
 					for (var i2 in drIngredients) {
 						var regex = new RegExp(drIngredients[i2], 'ig');
 						if (regex.test(ingArray[i])) {
-							//console.log(userAndRestriction.concat("***", x, ":", user[x.toString()], ":", ingArray[i]));
+							userAndRestriction.concat("***", x, ":", user[x.toString()], ":", ingArray[i]);
 							console.log("***", x, ":", user[x.toString()], ":", drIngredients[i2], ":", ingArray[i])
 						};
 					};
@@ -41,7 +45,7 @@ function compareRestrictions(str, callback) {
 			};
 		};
 	});
-	callback(userAndRestriction);
+	return(success());
 }
 
 app.get('/upc/:upcCode', function(req, res) {

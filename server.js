@@ -35,7 +35,7 @@ function compareRestrictions(str, callback) {
 					// console.log(" = " + ingArray[i] + " = ");	
 					for (var i2 in drIngredients) {
 						// console.log(" $ " + drIngredients[i2] + " $ ");
-						var regex = new RegExp("\b"+drIngredients[i2]+"\b", "ig");
+						var regex = new RegExp('\\b'+drIngredients[i2]+'\\b', 'ig');
 						console.log(regex);
 						console.log("ingredient= " + ingArray[i]);
 						if (regex.test(ingArray[i])) {

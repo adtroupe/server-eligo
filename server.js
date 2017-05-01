@@ -33,7 +33,7 @@ function compareRestrictions(str, callback) {
 				var drIngredients = object.child(dr.toLowerCase()).val();
 				//ingArray.forEach(function(i) {
 				for (var i in ingArray) {	
-					drIngredients.forEach(function(i2) {
+					//drIngredients.forEach(function(i2) {
 					for (var i2 in drIngredients) {
 						var regex = new RegExp("\b"+i2+"\b", "ig");
 						if (regex.test(i)) {

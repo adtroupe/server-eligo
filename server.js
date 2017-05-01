@@ -28,13 +28,17 @@ function compareRestrictions(str, callback) {
 	var userAndRestriction = '';
 	getDrtiInfo(function(object) {
 		for(var x = 1; x <= Object.keys(user).length; x++) {
+			console.log(" - " + user[x.toString()] + " - ");
 			for (var dr in user[x.toString()]) {
 			//user[x.toString()].forEach(function(dr) {
+				console.log(" % " + dr + " % ");
 				var drIngredients = object.child(dr.toLowerCase()).val();
 				//ingArray.forEach(function(i) {
-				for (var i in ingArray) {	
+				for (var i in ingArray) {
+					console.log(" = " + i + " = ");	
 					//drIngredients.forEach(function(i2) {
 					for (var i2 in drIngredients) {
+						console.log(" $ " + i2 + " $ ");
 						var regex = new RegExp("\b"+i2+"\b", "ig");
 						if (regex.test(i)) {
 							if (userAndRestriction != '') {

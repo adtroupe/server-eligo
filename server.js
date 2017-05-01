@@ -28,20 +28,20 @@ function compareRestrictions(str, callback) {
 	var userAndRestriction = '';
 	getDrtiInfo(function(object) {
 		for(var x = 0; x <= Object.keys(user).length-1; x++) {
-			console.log(" - " + user[x.toString()] + " - ");
+			// console.log(" - " + user[x.toString()] + " - ");
 			for (var dr in user[x.toString()]) {
 				var drIngredients = object.child(user[x.toString()][dr]).val();
-				console.log(" % " + user[x.toString()][dr] + " % ");
+				// console.log(" % " + user[x.toString()][dr] + " % ");
 				for (var i in ingArray) {
-					console.log(" = " + ingArray[i] + " = ");	
+					// console.log(" = " + ingArray[i] + " = ");	
 					for (var i2 in drIngredients) {
-						console.log(" $ " + drIngredients[i2] + " $ ");
-						var regex = new RegExp("\b"+i2+"\b", "ig");
-						if (regex.test(i)) {
+						// console.log(" $ " + drIngredients[i2] + " $ ");
+						var regex = new RegExp("\b"+drIngredients[i2]+"\b", "ig");
+						if (regex.test(ingArray[i])) {
 							if (userAndRestriction != '') {
-								userAndRestriction.concat(",", i, ":", dr);
+								console.log(userAndRestriction.concat("***", x, ":", user[x.toString()], ":", ingArray[i]));
 							} else {
-								userAndRestriction.concat(i, ":", dr);
+								console.log(userAndRestriction.concat(x, ":", user[x.toString()], ":", ingArray[i]));
 							};
 						};
 					};

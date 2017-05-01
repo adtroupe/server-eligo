@@ -39,11 +39,7 @@ function compareRestrictions(str, callback) {
 						console.log(regex);
 						console.log("ingredient= " + ingArray[i]);
 						if (regex.test(ingArray[i])) {
-							if (userAndRestriction != '') {
-								console.log(userAndRestriction.concat("***", x, ":", user[x.toString()], ":", ingArray[i]));
-							} else {
-								console.log(userAndRestriction.concat(x, ":", user[x.toString()], ":", ingArray[i]));
-							};
+							console.log(userAndRestriction.concat("***", x, ":", user[x.toString()], ":", ingArray[i]));
 						};
 					};
 				};

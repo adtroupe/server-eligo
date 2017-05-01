@@ -34,7 +34,7 @@ function compareRestrictions(str, callback) {
 					for (var i2 in drIngredients) {
 						var regex = new RegExp(drIngredients[i2], 'ig');
 						if (regex.test(ingArray[i])) {
-							userAndRestriction.concat("***", x, ":", user[x.toString()], ":", drIngredients[i2], ":", ingArray[i]);
+							userAndRestriction = userAndRestriction.concat("***", x, ":", user[x.toString()], ":", drIngredients[i2], ":", ingArray[i]);
 							console.log("^^^" + userAndRestriction);
 							console.log("***", x, ":", user[x.toString()], ":", drIngredients[i2], ":", ingArray[i])
 						};

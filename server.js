@@ -75,7 +75,7 @@ app.get('/upc/:upcCode', function(req, res) {
 			// });
 
 			//Gets only api returned string
-			res.send(JSON.stringify(str));
+			res.send(str);
 		});
 	};
 	https.request(options, callback).end();

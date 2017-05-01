@@ -27,15 +27,11 @@ function compareRestrictions(str, callback) {
 	var userAndRestriction = '';
 	getDrtiInfo(function(object) {
 		for(var x = 0; x <= Object.keys(user).length-1; x++) {
-			// console.log(" - " + user[x.toString()] + " - ");
 			for (var dr in user[x.toString()]) {
 				var drIngredients = object.child(user[x.toString()][dr]).val();
-				// console.log(" % " + user[x.toString()][dr] + " % ");
 				for (var i in ingArray) {
-					// console.log(" = " + ingArray[i] + " = ");	
 					for (var i2 in drIngredients) {
-						// console.log(" $ " + drIngredients[i2] + " $ ");
-						var regex = new RegExp('\\b'+drIngredients[i2]+'\\b', 'ig');
+						var regex = new RegExp(drIngredients[i2], 'ig');
 						if (regex.test(ingArray[i])) {
 							//console.log(userAndRestriction.concat("***", x, ":", user[x.toString()], ":", ingArray[i]));
 							console.log("***", x, ":", user[x.toString()], ":", ingArray[i])
@@ -80,15 +76,6 @@ app.get('/upc/:upcCode', function(req, res) {
 
 			//Gets only api returned string
 			//res.send();
-
-			//Breaks up api ingredients
-			// var ingredients = JSON.parse(str).nf_ingredient_statement;
-			// var ingArray = ingredients.split(', ');
-
-			// Testing ingredient array and api returned string
-			// getDrtiInfo(function(item) {
-			// 	res.send(ingArray + " : " + JSON.stringify(item)); 
-			// });
 		});
 	};
 	https.request(options, callback).end();

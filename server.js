@@ -28,10 +28,13 @@ function compareRestrictions(str, callback) {
 	var userAndRestriction = '';
 	getDrtiInfo(function(object) {
 		for(var x = 1; x <= Object.keys(user).length; x++) {
-			user[x.toString()].forEach(function(dr) {
+			for (var dr in user[x.toString()]) {
+			//user[x.toString()].forEach(function(dr) {
 				var drIngredients = object.child(dr.toLowerCase()).val();
-				ingArray.forEach(function(i) {
+				//ingArray.forEach(function(i) {
+				for (var i in ingArray) {	
 					drIngredients.forEach(function(i2) {
+					for (var i2 in drIngredients) {
 						var regex = new RegExp("\b"+i2+"\b", "ig");
 						if (regex.test(i)) {
 							if (userAndRestriction != '') {
@@ -40,9 +43,9 @@ function compareRestrictions(str, callback) {
 								userAndRestriction.concat(i, ":", dr);
 							};
 						};
-					});
-				});
-			});
+					};
+				};
+			};
 		};
 		callback(userAndRestriction);
 	});

@@ -32,7 +32,7 @@ function compareRestrictions(str, callback) {
 			for (var dr in user[x.toString()]) {
 			//user[x.toString()].forEach(function(dr) {
 				var drIngredients = object.child(dr.toLowerCase()).val();
-				console.log(" % " + drIngredients + " % ");
+				console.log(" % " + drIngredients[dr] + " % ");
 				//ingArray.forEach(function(i) {
 				for (var i in ingArray) {
 					console.log(" = " + ingArray[i] + " = ");	

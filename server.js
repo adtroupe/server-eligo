@@ -70,12 +70,13 @@ app.get('/upc/:upcCode', function(req, res) {
 		//on end of api call, json sent
 		response.on('end', function () {
 			//Compares restrictions to ingredients
-			// compareRestrictions(str, function(results) {
-			// 	res.send(JSON.stringify(results));
-			// });
+			compareRestrictions(str, function(results) {
+				str.Restrictions = results;
+				res.send(str);
+			});
 
 			//Gets only api returned string
-			res.send(str);
+			//res.send(str);
 		});
 	};
 	https.request(options, callback).end();

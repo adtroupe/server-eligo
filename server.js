@@ -15,9 +15,6 @@ var user = JSON.parse('{ "0" : ["peanut"],' +
   '"1" : ["soy"]}');
 
 var userAndRestriction = '';
-var success = function() {
-	return userAndRestriction;
-}
 
 function getDrtiInfo(callback) {
 	var drtiRef = firebase.database().ref("/drti");
@@ -26,7 +23,7 @@ function getDrtiInfo(callback) {
 	});
 };
 
-function compareRestrictions(str, callback, success) {
+function compareRestrictions(str, callback) {
 	var ingredients = JSON.parse(str).nf_ingredient_statement;
 	var ingArray = ingredients.split(', ');	
 	getDrtiInfo(function(object) {
@@ -45,7 +42,7 @@ function compareRestrictions(str, callback, success) {
 			};
 		};
 	});
-	return(success());
+	callback(userAndRestriction);
 }
 
 app.get('/upc/:upcCode', function(req, res) {
@@ -75,7 +72,7 @@ app.get('/upc/:upcCode', function(req, res) {
 		response.on('end', function () {
 			//Compares restrictions to ingredients
 			compareRestrictions(str, function(results) {
-				res.send(JSON.stringify(results));
+				res.send(results);
 			});
 
 			//Gets only api returned string

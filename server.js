@@ -11,8 +11,6 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var testString = "";
-
 var user = JSON.parse('{ "0" : ["peanut", "dairy"],' +
   '"1" : ["soy"],' +
   '"2" : ["egg"]}');
@@ -30,13 +28,10 @@ function compareRestrictions(str, callback) {
 	var userAndRestriction = '';
 	getDrtiInfo(function(object) {
 		for(var x = 1; x <= Object.keys(user).length; x++) {
-			testString += x.toString();
 			user[x.toString()].forEach(function(dr) {
-				testString += dr;
 				var drIngredients = object.child(dr.toLowerCase()).val();
 				ingArray.forEach(function(i) {
 					drIngredients.forEach(function(i2) {
-						testString += i2;
 						var regex = new RegExp("\b"+i2+"\b", "ig");
 						if (regex.test(i)) {
 							if (userAndRestriction != '') {
@@ -79,12 +74,12 @@ app.get('/upc/:upcCode', function(req, res) {
 		//on end of api call, json sent
 		response.on('end', function () {
 			//Compares restrictions to ingredients
-			// compareRestrictions(str, function(results) {
-			// 	res.send(JSON.stringify(results));
-			// });
+			compareRestrictions(str, function(results) {
+				res.send(JSON.stringify(results));
+			});
 
 			//Gets only api returned string
-			res.send(testString);
+			//res.send();
 
 			//Breaks up api ingredients
 			// var ingredients = JSON.parse(str).nf_ingredient_statement;

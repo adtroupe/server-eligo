@@ -38,12 +38,14 @@ function compareRestrictions(str, callback) {
 						var regex = new RegExp('\\b'+drIngredients[i2]+'\\b', 'ig');
 						if (regex.test(ingArray[i])) {
 							userAndRestriction.concat("***", x, ":", user[x.toString()], ":", ingArray[i]);
+							console.log(userAndRestriction);
+							callback(userAndRestriction);
+						
 						};
 					};
 				};
 			};
-		console.log(userAndRestriction);
-		callback(userAndRestriction);
+		//console.log(userAndRestriction);
 		};
 	});
 }

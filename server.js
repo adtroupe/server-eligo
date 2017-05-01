@@ -30,13 +30,10 @@ function compareRestrictions(str, callback) {
 		for(var x = 0; x <= Object.keys(user).length-1; x++) {
 			console.log(" - " + user[x.toString()] + " - ");
 			for (var dr in user[x.toString()]) {
-			//user[x.toString()].forEach(function(dr) {
-				var drIngredients = object.child(dr.toLowerCase()).val();
-				console.log(" % " + drIngredients[dr] + " % ");
-				//ingArray.forEach(function(i) {
+				var drIngredients = object.child(user[x.toString()][dr]).val();
+				console.log(" % " + user[x.toString()][dr] + " % ");
 				for (var i in ingArray) {
 					console.log(" = " + ingArray[i] + " = ");	
-					//drIngredients.forEach(function(i2) {
 					for (var i2 in drIngredients) {
 						console.log(" $ " + drIngredients[i2] + " $ ");
 						var regex = new RegExp("\b"+i2+"\b", "ig");

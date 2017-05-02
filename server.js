@@ -72,7 +72,7 @@ app.get('/upc/:upcCode', function(req, res) {
 			//Compares restrictions to ingredients
 			compareRestrictions(str, function(results) {
 				var retJson = JSON.parse(str);
-				retJson["Restrictions"].push(results);
+				retJson["Restrictions"]=results;
 				res.send(retJson);
 				console.log(retJson);
 			});

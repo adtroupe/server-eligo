@@ -11,7 +11,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var user = JSON.parse('{ "0" : ["peanut"],' +
+var user = JSON.parse('{ "0" : ["dairy"],' +
   '"1" : ["soy"]}');
 
 var userAndRestriction = '';
@@ -69,16 +69,12 @@ app.get('/upc/:upcCode', function(req, res) {
 
 		//on end of api call, json sent
 		response.on('end', function () {
-			//Compares restrictions to ingredients
+			//Compares restrictions to ingredients and returns JSON object
 			compareRestrictions(str, function(results) {
 				var retJson = JSON.parse(str);
 				retJson["Restrictions"]=results;
 				res.send(retJson);
-				console.log(retJson);
 			});
-
-			//Gets only api returned string
-			//res.send(str);
 		});
 	};
 	https.request(options, callback).end();

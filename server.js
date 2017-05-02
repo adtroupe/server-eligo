@@ -12,7 +12,7 @@ var config = {
 firebase.initializeApp(config);
 
 var user = JSON.parse('{ "0" : ["dairy"],' +
-  '"1" : ["soy"]}');
+  '"1" : ["peanut"]}');
 
 var userAndRestriction = '';
 

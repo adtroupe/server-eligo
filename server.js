@@ -53,6 +53,7 @@ function compareRestrictions(str, callback) {
 	});
 }
 
+//req.query.userId --> get a snapshot and then parse through by user.dr.value
 app.get('/upc/:upcCode', function(req, res) {
 	//details of api call with upc code
 	// var options = {

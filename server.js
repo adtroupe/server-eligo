@@ -85,7 +85,8 @@ app.get('/upc/:upcCode', function(req, res) {
 	https.request(options, callback).end();
 });
 
-
+//DO SOMETHING WITH AUTH, DEBUG WITH FIREFOX AND BURP
+//	accounts/id put in auth token
 app.post('/login', function(req, res) {
 	var accountRef = firebase.database().ref("/accounts");
 	var auth = req.body.auth;
@@ -96,10 +97,12 @@ app.post('/login', function(req, res) {
 				id : null
 			});
 		};
+		accountRef.child(id).set({
+			auth : auth
+		});
 		res.send(object.child(id));
 	});
 });
-
 
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]
 var server = app.listen(process.env.PORT || 8080, function () {

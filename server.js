@@ -24,6 +24,10 @@ function getDrtiInfo(callback) {
 	});
 };
 
+function getAccountInfo(callback) {
+	var accountRef = firebase.database().ref("/accounts");
+};
+
 function compareRestrictions(str, callback) {
 	var ingredients = JSON.parse(str).nf_ingredient_statement;
 	var ingArray = ingredients.split(', ');	

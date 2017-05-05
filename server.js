@@ -4,7 +4,9 @@ var http = require('http')
 var https = require('https')
 var json = require('./secrets.json');
 var firebase = require('firebase');
+var bodyParser = require("body-parser");
 
+app.use(bodyParser.json());
 var config = {
 	apiKey: "AIzaSyDa7CpASbxArYtrSARNkJy36FmuHdm7GpU",
 	databaseURL: "https://eligo-ca1b0.firebaseio.com",
@@ -24,8 +26,8 @@ function getDrtiInfo(callback) {
 	});
 };
 
-function getAccountInfo(accountRef, callback) {
-	accountRef.on('value', function(snapshot) {
+function getAccountInfo(ref, callback) {
+	ref.on('value', function(snapshot) {
 		callback(snapshot);
 	});
 };
@@ -85,23 +87,29 @@ app.get('/upc/:upcCode', function(req, res) {
 	https.request(options, callback).end();
 });
 
-//DO SOMETHING WITH AUTH, DEBUG WITH FIREFOX AND BURP
-//	accounts/id put in auth token
+
 app.post('/login', function(req, res) {
-	var accountRef = firebase.database().ref("/accounts");
 	var auth = req.body.auth;
 	var id = req.body.userId;
-	getAccountInfo(accountRef, function(object) {
-		if(object.hasChild(id) = false) {
-			accountRef.set({
-				id : null
-			});
-		};
-		accountRef.child(id).set({
-			auth : auth
-		});
-		res.send(object.child(id));
-	});
+	var accountRef = firebase.database().ref("/accounts/"+id);
+	var info = {};
+	info[id] = {
+		auth : auth
+	};
+	accountRef.update({
+		auth : auth
+	}).then(getAccountInfo(accountRef, function(object) {
+		res.send(object.val());
+	}));
+		//};
+		//var account = firebase.database().ref('/accounts/'+id);
+		// account.set({
+		// 	auth : auth
+		// });
+		//console.log("Child ID: " + accountRef[id].val());
+		// accountRef.on("value", function(snapshot) {
+		// 	res.send(snapshot.val());
+		// });
 });
 
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]

@@ -24,8 +24,10 @@ function getDrtiInfo(callback) {
 	});
 };
 
-function getAccountInfo(callback) {
-	var accountRef = firebase.database().ref("/accounts");
+function getAccountInfo(accountRef, callback) {
+	accountRef.on('value', function(snapshot) {
+		callback(snapshot);
+	});
 };
 
 function compareRestrictions(str, callback) {
@@ -83,11 +85,20 @@ app.get('/upc/:upcCode', function(req, res) {
 	https.request(options, callback).end();
 });
 
-// app.post('/login', function(req, res) {
-// 	var auth = req.body.auth;
-// 	var id = req.body.userId;
 
-// });
+app.post('/login', function(req, res) {
+	var accountRef = firebase.database().ref("/accounts");
+	var auth = req.body.auth;
+	var id = req.body.userId;
+	getAccountInfo(accountRef, function(object) {
+		if(object.hasChild(id) = false) {
+			accountRef.set({
+				id : null
+			});
+		};
+		res.send(object.child(id));
+	});
+});
 
 
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]

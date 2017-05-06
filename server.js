@@ -14,8 +14,8 @@ var config = {
 firebase.initializeApp(config);
 
 //test user
-var user = JSON.parse('{ "0" : ["dairy"],' +
-  '"1" : ["peanut"]}');
+// var user = JSON.parse('{ "0" : ["dairy"],' +
+//   '"1" : ["peanut"]}');
 
 var userAndRestriction = '';
 
@@ -38,9 +38,7 @@ function compareRestrictions(id, str, callback) {
 	var userRef = firebase.database().ref("/accounts/"+id);
 	getDrtiInfo(function(object) {
 		userRef.on('value', function(snapshot) {
-			//console.log(snapshot.child('users').val());	
 			for (var user in snapshot.child('users').val()) {
-			//for(var x = 0; x <= Object.keys(user).length-1; x++) {
 				for (var dr in snapshot.child('users').child(user).child('dr').val()) {
 					var drVal = snapshot.child('users').child(user).child('dr').val();
 					var drIngredients = object.child(drVal[dr]).val();
@@ -109,15 +107,6 @@ app.post('/login', function(req, res) {
 	}).then(getAccountInfo(accountRef, function(object) {
 		res.send(object.val());
 	}));
-		//};
-		//var account = firebase.database().ref('/accounts/'+id);
-		// account.set({
-		// 	auth : auth
-		// });
-		//console.log("Child ID: " + accountRef[id].val());
-		// accountRef.on("value", function(snapshot) {
-		// 	res.send(snapshot.val());
-		// });
 });
 
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]

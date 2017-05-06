@@ -32,29 +32,36 @@ function getAccountInfo(ref, callback) {
 	});
 };
 
-function compareRestrictions(str, callback) {
+function compareRestrictions(id, str, callback) {
 	var ingredients = JSON.parse(str).nf_ingredient_statement;
-	var ingArray = ingredients.split(', ');	
+	var ingArray = ingredients.split(', ');
+	var userRef = firebase.database().ref("/accounts/"+id);
 	getDrtiInfo(function(object) {
-		for(var x = 0; x <= Object.keys(user).length-1; x++) {
-			for (var dr in user[x.toString()]) {
-				var drIngredients = object.child(user[x.toString()][dr]).val();
-				for (var i in ingArray) {
-					for (var i2 in drIngredients) {
-						var regex = new RegExp(drIngredients[i2], 'ig');
-						if (regex.test(ingArray[i])) {
-							userAndRestriction = userAndRestriction.concat("***", x, "$", user[x.toString()], "$", drIngredients[i2], "$", ingArray[i]);
+		userRef.on('value', function(snapshot) {
+			//console.log(snapshot.child('users').val());	
+			for (var user in snapshot.child('users').val()) {
+			//for(var x = 0; x <= Object.keys(user).length-1; x++) {
+				for (var dr in snapshot.child('users').child(user).child('dr').val()) {
+					var drVal = snapshot.child('users').child(user).child('dr').val();
+					var drIngredients = object.child(drVal[dr]).val();
+					for (var i in ingArray) {
+						for (var i2 in drIngredients) {
+							var regex = new RegExp(drIngredients[i2], 'ig');
+							if (regex.test(ingArray[i])) {
+								userAndRestriction = userAndRestriction.concat("***", user, "$", snapshot.child('users').child(user).child('first').val(), "$", snapshot.child('users').child(user).child('last').val(), "$", drVal[dr], "$", drIngredients[i2], "$", ingArray[i]);
+							};
 						};
 					};
 				};
 			};
-		};
-		callback(userAndRestriction);
+			callback(userAndRestriction);
+		});
 	});
 }
 
 //req.query.userId --> get a snapshot and then parse through by user.dr.value
 app.get('/upc/:upcCode', function(req, res) {
+	var id = req.query.userId;
 	//details of api call with upc code
 	// var options = {
 	//   host: "api.nutritionix.com",
@@ -78,7 +85,7 @@ app.get('/upc/:upcCode', function(req, res) {
 		//on end of api call, json sent
 		response.on('end', function () {
 			//Compares restrictions to ingredients and returns JSON object
-			compareRestrictions(str, function(results) {
+			compareRestrictions(id, str, function(results) {
 				var retJson = JSON.parse(str);
 				retJson["Restrictions"]=results;
 				res.send(retJson);

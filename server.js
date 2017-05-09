@@ -96,7 +96,7 @@ app.get('/upc/:upcCode', function(req, res) {
 
 app.post('/login', function(req, res) {
 	var auth = req.body.auth;
-	var id = req.body.userId;
+	var id = req.body.accountId;
 	var accountRef = firebase.database().ref("/accounts/"+id);
 	accountRef.update({
 		auth : auth

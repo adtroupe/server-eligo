@@ -98,16 +98,31 @@ app.post('/login', function(req, res) {
 	var auth = req.body.auth;
 	var id = req.body.userId;
 	var accountRef = firebase.database().ref("/accounts/"+id);
-	var info = {};
-	info[id] = {
-		auth : auth
-	};
 	accountRef.update({
 		auth : auth
 	}).then(getAccountInfo(accountRef, function(object) {
 		res.send(object.val());
 	}));
 });
+
+
+app.post('/users', function(req, res) {
+	var id = req.body.accountId;
+	var sub = req.body.subUserId;
+	var first = req.body.first;
+	var last = req.body.last;
+	var dr = req.body.dr;
+	var accountRef = firebase.database().ref("/accounts/" + id);
+	var usersRef = firebase.database().ref("/accounts/" + id + "/users/" + sub);
+	usersRef.update({
+		first : first,
+		last : last,
+		dr : dr
+	}).then(getAccountInfo(accountRef, function(object) {
+		res.send(object.val());
+	}));
+});
+
 
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]
 var server = app.listen(process.env.PORT || 8080, function () {

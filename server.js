@@ -59,7 +59,7 @@ function compareRestrictions(id, str, callback) {
 
 //req.query.userId --> get a snapshot and then parse through by user.dr.value
 app.get('/upc/:upcCode', function(req, res) {
-	var id = req.query.userId;
+	var id = req.query.accountId;
 	//details of api call with upc code
 	// var options = {
 	//   host: "api.nutritionix.com",

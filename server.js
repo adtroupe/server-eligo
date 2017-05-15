@@ -57,22 +57,23 @@ function compareRestrictions(id, str, callback) {
 	});
 }
 
+
 //req.query.userId --> get a snapshot and then parse through by user.dr.value
 app.get('/upc/:upcCode', function(req, res) {
 	var id = req.query.accountId;
 	//details of api call with upc code
-	var options = {
-	  host: "api.nutritionix.com",
-	  path: '/v1_1/item?upc='+req.params.upcCode+'&appId='+json.nutritionix.users.alex.id+'&appKey='+json.nutritionix.users.alex.key,
-	  method: 'GET',
-	};
-
-	//GET request to personally hosted json file for cocktail peanuts, regardless of upc sent. 
 	// var options = {
-	//   host: "students.washington.edu",
-	//   path: '/adtroupe/capstone/example.json',
+	//   host: "api.nutritionix.com",
+	//   path: '/v1_1/item?upc='+req.params.upcCode+'&appId='+json.nutritionix.users.alex.id+'&appKey='+json.nutritionix.users.alex.key,
 	//   method: 'GET',
 	// };
+
+	//GET request to personally hosted json file for cocktail peanuts, regardless of upc sent. 
+	var options = {
+	  host: "students.washington.edu",
+	  path: '/adtroupe/capstone/example.json',
+	  method: 'GET',
+	};
 
 	callback = function(response) {
 		var str = '';
@@ -87,7 +88,7 @@ app.get('/upc/:upcCode', function(req, res) {
 				var retJson = JSON.parse(str);
 				retJson["Restrictions"]=results;
 				res.send(retJson);
-			});
+			})
 		});
 	};
 	https.request(options, callback).end();
@@ -119,6 +120,16 @@ app.post('/users', function(req, res) {
 		last : last,
 		dr : dr
 	}).then(getAccountInfo(accountRef, function(object) {
+		res.send(object.val());
+	}));
+});
+
+app.post('/deleteUser', function(req, res) {
+	var account = req.body.accountId;
+	var user = req.body.subUserId;
+	var accountRef = firebase.database().ref("/accounts/" + account);
+	var usersRef = firebase.database().ref("/accounts/"+account+"/users/"+user);
+	usersRef.remove().then(getAccountInfo(accountRef, function(object) {
 		res.send(object.val());
 	}));
 });

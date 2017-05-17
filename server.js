@@ -134,6 +134,13 @@ app.post('/deleteUser', function(req, res) {
 	}));
 });
 
+app.post('/deleteAccount', function(req, res) {
+	var account = req.body.accountId;
+	var accountRef = firebase.database().ref('/accounts/' + account);
+	accountRef.remove().then(function() {
+		res.send("Account Deleted");
+	});
+});
 
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]
 var server = app.listen(process.env.PORT || 8080, function () {

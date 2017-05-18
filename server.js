@@ -63,7 +63,7 @@ function compareRestrictions(id, str, callback) {
 
 //req.query.userId --> get a snapshot and then parse through by user.dr.value
 app.get('/upc/:upcCode', function(req, res) {
-	var id = req.query.accountId;
+	var account = req.query.accountId;
 	//details of api call with upc code
 	// var options = {
 	//   host: "api.nutritionix.com",
@@ -83,11 +83,18 @@ app.get('/upc/:upcCode', function(req, res) {
 		//receives data and appends to str
 		response.on('data', function (chunk) {
 			str += chunk;
+			var read = JSON.parse(str);
+			var historyRef = firebase.database().ref("/accounts/"+account+"/history");
+			var newHistoryPostRef = historyRef.push();
+			newHistoryPostRef.set({
+				upc : req.params.upcCode,
+				name : read["item_name"]					
+			});	
 		});
 		//on end of api call, json sent
 		response.on('end', function () {
 			//Compares restrictions to ingredients and returns JSON object
-			compareRestrictions(id, str, function(results) {
+			compareRestrictions(account, str, function(results) {
 				var retJson = JSON.parse(str);
 				retJson["Restrictions"]=results;
 				res.send(retJson);
@@ -145,8 +152,15 @@ app.post('/deleteAccount', function(req, res) {
 	});
 });
 
+app.post('/history', function(req, res) {
+	var account = req.body.accountId;
+	var historyRef = firebase.database().ref('/accounts/' + account + '/history');
+	res.send(historyRef.orderByKey().limitToFirst(10));
+});
+
+
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]
 var server = app.listen(process.env.PORT || 8080, function () {
 	var port = server.address().port;
 	console.log('Example app listening on port ', port)
-})
+});

@@ -40,7 +40,8 @@ function compareRestrictions(id, str, callback) {
 	var ingArray = ingredients.split(', ');
 	var userRef = firebase.database().ref("/accounts/"+id);
 	getDrtiInfo(function(object) {
-		userRef.on('value', function(snapshot) {
+		userRef.once('value').then(function(snapshot) {
+		//userRef.on('value', function(snapshot) {
 			for (var user in snapshot.child('users').val()) {
 				for (var dr in snapshot.child('users').child(user).child('dr').val()) {
 					var drVal = snapshot.child('users').child(user).child('dr').val();
@@ -81,7 +82,7 @@ app.get('/upc/:upcCode', function(req, res) {
 	callback = function(response) {
 		var str = '';
 		//receives data and appends to str
-		response.on('data', function (chunk) {
+		response.once('data', function (chunk) {
 			str += chunk;
 			var read = JSON.parse(str);
 			var historyRef = firebase.database().ref("/accounts/"+account+"/history");
@@ -92,7 +93,7 @@ app.get('/upc/:upcCode', function(req, res) {
 			});	
 		});
 		//on end of api call, json sent
-		response.on('end', function () {
+		response.once('end', function () {
 			//Compares restrictions to ingredients and returns JSON object
 			compareRestrictions(account, str, function(results) {
 				var retJson = JSON.parse(str);

@@ -97,8 +97,8 @@ app.get('/upc/:upcCode', function(req, res) {
 
 app.post('/login', function(req, res) {
 	var auth = req.body.auth;
-	var id = req.body.accountId;
-	var accountRef = firebase.database().ref("/accounts/"+id);
+	var account = req.body.accountId;
+	var accountRef = firebase.database().ref("/accounts/"+account);
 	accountRef.update({
 		auth : auth
 	}).then(getAccountInfo(accountRef, function(object) {
@@ -108,18 +108,18 @@ app.post('/login', function(req, res) {
 
 
 app.post('/users', function(req, res) {
-	var id = req.body.accountId;
+	var account = req.body.accountId;
 	var sub = req.body.subUserId;
 	var first = req.body.first;
 	var last = req.body.last;
 	var dr = req.body.dr;
-	var accountRef = firebase.database().ref("/accounts/" + id);
-	var usersRef = firebase.database().ref("/accounts/" + id + "/users/" + sub);
+	//var accountRef = firebase.database().ref("/accounts/" + id);
+	var usersRef = firebase.database().ref("/accounts/" + account + "/users/" + sub);
 	usersRef.update({
 		first : first,
 		last : last,
 		dr : dr
-	}).then(getAccountInfo(accountRef, function(object) {
+	}).then(getAccountInfo(firebase.database().ref("/accounts/" + account), function(object) {
 		res.send(object.val());
 	}));
 });
@@ -127,9 +127,9 @@ app.post('/users', function(req, res) {
 app.post('/deleteUser', function(req, res) {
 	var account = req.body.accountId;
 	var user = req.body.subUserId;
-	var accountRef = firebase.database().ref("/accounts/" + account);
+	//var accountRef = firebase.database().ref("/accounts/" + account);
 	var usersRef = firebase.database().ref("/accounts/"+account+"/users/"+user);
-	usersRef.remove().then(getAccountInfo(accountRef, function(object) {
+	usersRef.remove().then(getAccountInfo(firebase.database().ref("/accounts/" + account), function(object) {
 		res.send(object.val());
 	}));
 });

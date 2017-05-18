@@ -27,7 +27,10 @@ function getDrtiInfo(callback) {
 };
 
 function getAccountInfo(ref, callback) {
-	ref.on('value', function(snapshot) {
+	// ref.on('value', function(snapshot) {
+	// 	callback(snapshot);
+	// });
+	ref.once('value').then(function(snapshot) {
 		callback(snapshot);
 	});
 };

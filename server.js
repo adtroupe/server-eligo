@@ -13,12 +13,9 @@ var config = {
 };
 firebase.initializeApp(config);
 
-//test user
-// var user = JSON.parse('{ "0" : ["dairy"],' +
-//   '"1" : ["peanut"]}');
-
 var userAndRestriction = '';
 
+//Gets Dietary Restriction info from Firebase and returns a snapshot of it
 function getDrtiInfo(callback) {
 	var drtiRef = firebase.database().ref("/drti");
 	drtiRef.on('value', function(snapshot) {
@@ -26,22 +23,20 @@ function getDrtiInfo(callback) {
 	});
 };
 
+//Gets Account Info from Firebase based on ref and returns a snapshot of the account
 function getAccountInfo(ref, callback) {
-	// ref.on('value', function(snapshot) {
-	// 	callback(snapshot);
-	// });
 	ref.once('value').then(function(snapshot) {
 		callback(snapshot);
 	});
 };
 
+//Compares user dietary restrictions within an account with the ingredients received from the API call
 function compareRestrictions(id, str, callback) {
 	var ingredients = JSON.parse(str).nf_ingredient_statement;
 	var ingArray = ingredients.split(', ');
 	var userRef = firebase.database().ref("/accounts/"+id);
 	getDrtiInfo(function(object) {
 		userRef.once('value').then(function(snapshot) {
-		//userRef.on('value', function(snapshot) {
 			for (var user in snapshot.child('users').val()) {
 				for (var dr in snapshot.child('users').child(user).child('dr').val()) {
 					var drVal = snapshot.child('users').child(user).child('dr').val();
@@ -61,8 +56,8 @@ function compareRestrictions(id, str, callback) {
 	});
 }
 
-
-//req.query.userId --> get a snapshot and then parse through by user.dr.value
+//Gets UPC & Product information from nutritionix API, parses through data, adds certain product data to firebase history.
+//Then appends restriction data to JSON and returns
 app.get('/upc/:upcCode', function(req, res) {
 	var account = req.query.accountId;
 	//details of api call with upc code
@@ -81,7 +76,6 @@ app.get('/upc/:upcCode', function(req, res) {
 
 	callback = function(response) {
 		var str = '';
-		//receives data and appends to str
 		response.once('data', function (chunk) {
 			str += chunk;
 			var read = JSON.parse(str);
@@ -95,9 +89,7 @@ app.get('/upc/:upcCode', function(req, res) {
 				dateTime : dt.getTime()				
 			});	
 		});
-		//on end of api call, json sent
 		response.once('end', function () {
-			//Compares restrictions to ingredients and returns JSON object
 			compareRestrictions(account, str, function(results) {
 				var retJson = JSON.parse(str);
 				retJson["Restrictions"]=results;
@@ -108,7 +100,8 @@ app.get('/upc/:upcCode', function(req, res) {
 	https.request(options, callback).end();
 });
 
-
+//Creates or updates an account with accountId and auth token
+//Returns all data within that account
 app.post('/login', function(req, res) {
 	var auth = req.body.auth;
 	var account = req.body.accountId;
@@ -120,14 +113,14 @@ app.post('/login', function(req, res) {
 	}));
 });
 
-
+//Creates or updates subuser data
+//Returns all data within that account
 app.post('/users', function(req, res) {
 	var account = req.body.accountId;
 	var sub = req.body.subUserId;
 	var first = req.body.first;
 	var last = req.body.last;
 	var dr = req.body.dr;
-	//var accountRef = firebase.database().ref("/accounts/" + id);
 	var usersRef = firebase.database().ref("/accounts/" + account + "/users/" + sub);
 	usersRef.update({
 		first : first,
@@ -138,16 +131,19 @@ app.post('/users', function(req, res) {
 	}));
 });
 
+//Deletes all data pertaining to a subuser
+//Returns all data within that acccount
 app.post('/deleteUser', function(req, res) {
 	var account = req.body.accountId;
 	var user = req.body.subUserId;
-	//var accountRef = firebase.database().ref("/accounts/" + account);
 	var usersRef = firebase.database().ref("/accounts/"+account+"/users/"+user);
 	usersRef.remove().then(getAccountInfo(firebase.database().ref("/accounts/" + account), function(object) {
 		res.send(object.val());
 	}));
 });
 
+//Deletes all account data
+//Returns string verifying account deletion
 app.post('/deleteAccount', function(req, res) {
 	var account = req.body.accountId;
 	var accountRef = firebase.database().ref('/accounts/' + account);
@@ -156,15 +152,17 @@ app.post('/deleteAccount', function(req, res) {
 	});
 });
 
+//Returns 10 most recent scans from history object in firebase
 app.post('/history', function(req, res) {
 	var account = req.body.accountId;
 	var historyRef = firebase.database().ref('/accounts/' + account + '/history');
-	//res.send(historyRef.orderByKey().limitToFirst(10).val());
 	historyRef.orderByKey().limitToFirst(10).once('value').then(function(object) {
 		res.send(object);
 	});
 });
 
+//Creates or updates an accounts grocery list within firebase
+//Returns string verifying list creation or update
 app.post('/list', function(req, res) {
 	var account = req.body.accountId;
 	var groceryList = req.body.list;

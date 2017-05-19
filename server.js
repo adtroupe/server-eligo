@@ -86,10 +86,13 @@ app.get('/upc/:upcCode', function(req, res) {
 			str += chunk;
 			var read = JSON.parse(str);
 			var historyRef = firebase.database().ref("/accounts/"+account+"/history");
+			var dateString = '';
+			var dt = new Date();
 			var newHistoryPostRef = historyRef.push();
 			newHistoryPostRef.set({
 				upc : req.params.upcCode,
-				name : read["item_name"]					
+				name : read["item_name"],
+				dateTime : dt.getTime()				
 			});	
 		});
 		//on end of api call, json sent
@@ -156,9 +159,22 @@ app.post('/deleteAccount', function(req, res) {
 app.post('/history', function(req, res) {
 	var account = req.body.accountId;
 	var historyRef = firebase.database().ref('/accounts/' + account + '/history');
-	res.send(historyRef.orderByKey().limitToFirst(10));
+	//res.send(historyRef.orderByKey().limitToFirst(10).val());
+	historyRef.orderByKey().limitToFirst(10).once('value').then(function(object) {
+		res.send(object);
+	});
 });
 
+app.post('/list', function(req, res) {
+	var account = req.body.accountId;
+	var groceryList = req.body.list;
+	var accountRef = firebase.database().ref('/accounts/' + account);
+	accountRef.update({
+		list : groceryList
+	}).then(function() {
+		res.send("200 OK")
+	});
+});
 
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]
 var server = app.listen(process.env.PORT || 8080, function () {

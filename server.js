@@ -13,8 +13,6 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var userAndRestriction = '';
-
 //Gets Dietary Restriction info from Firebase and returns a snapshot of it
 function getDrtiInfo(callback) {
 	var drtiRef = firebase.database().ref("/drti");
@@ -32,6 +30,7 @@ function getAccountInfo(ref, callback) {
 
 //Compares user dietary restrictions within an account with the ingredients received from the API call
 function compareRestrictions(id, str, callback) {
+	var userAndRestriction = '';
 	var ingredients = JSON.parse(str).nf_ingredient_statement;
 	var ingArray = ingredients.split(', ');
 	var userRef = firebase.database().ref("/accounts/"+id);

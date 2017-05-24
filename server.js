@@ -5,11 +5,13 @@ var https = require('https')
 var json = require('./secrets.json');
 var firebase = require('firebase');
 var bodyParser = require("body-parser");
+//var multer  = require('multer');
 
 app.use(bodyParser.json());
 var config = {
 	apiKey: "AIzaSyDa7CpASbxArYtrSARNkJy36FmuHdm7GpU",
 	databaseURL: "https://eligo-ca1b0.firebaseio.com",
+	storageBucket: "gs://eligo-ca1b0.appspot.com"
 };
 firebase.initializeApp(config);
 
@@ -172,6 +174,15 @@ app.post('/list', function(req, res) {
 		res.send("200 OK")
 	});
 });
+
+// app.post('/upload', function(req, res) {
+// 	var account = req.body.accountId;
+// 	var user = req.body.subUserId;
+// 	var file = req.file;
+// 	var storage = firebase.storage('gs://eligo-ca1b0.appspot.com');
+// 	var storageRef = storage.ref('/accounts' + account);
+// 	var upload = multer({dest : storageRef});
+// })
 
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]
 var server = app.listen(process.env.PORT || 8080, function () {

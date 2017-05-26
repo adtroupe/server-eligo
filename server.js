@@ -126,7 +126,7 @@ app.post('/users', function(req, res) {
 		first : first,
 		last : last,
 		dr : dr,
-		img : img
+		image : img
 	}).then(getAccountInfo(firebase.database().ref("/accounts/" + account), function(object) {
 		res.send(object.val());
 	}));

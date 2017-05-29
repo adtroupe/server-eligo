@@ -175,6 +175,20 @@ app.post('/list', function(req, res) {
 	});
 });
 
+app.post('/suggest', function(req, res) {
+	var account = req.body.accountId;
+	var dr = req.body.dr;
+	var suggestion = req.body.suggestion;
+	var ref = firebase.database().ref('/suggestions/' + account);
+	var newRef = ref.push();
+	newRef.set({
+		dr : dr,
+		suggestion : suggestion
+	}).then(function() {
+		res.send("200 OK");
+	});
+})
+
 //for testing, call >node index.js to create server. then call localserver:3000/upc/[upcCode]
 var server = app.listen(process.env.PORT || 8080, function () {
 	var port = server.address().port;

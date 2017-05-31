@@ -57,7 +57,7 @@ function compareRestrictions(id, str, callback) {
 
 //Gets UPC & Product information from nutritionix API, parses through data, adds certain product data to firebase history.
 //Then appends restriction data to JSON and returns
-app.get('/upc/:upcCode', function(req, res) {
+app.get('/upc/:upcCode', function(req, res, next) {
 	var account = req.query.accountId;
 	//details of api call with upc code
 	// var options = {

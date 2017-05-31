@@ -60,18 +60,18 @@ function compareRestrictions(id, str, callback) {
 app.get('/upc/:upcCode', function(req, res) {
 	var account = req.query.accountId;
 	//details of api call with upc code
-	var options = {
-	  host: "api.nutritionix.com",
-	  path: '/v1_1/item?upc='+req.params.upcCode+'&appId='+json.nutritionix.users.alex.id+'&appKey='+json.nutritionix.users.alex.key,
-	  method: 'GET',
-	};
-
-	//GET request to personally hosted json file for cocktail peanuts, regardless of upc sent. 
 	// var options = {
-	//   host: "students.washington.edu",
-	//   path: '/adtroupe/capstone/example.json',
+	//   host: "api.nutritionix.com",
+	//   path: '/v1_1/item?upc='+req.params.upcCode+'&appId='+json.nutritionix.users.alex.id+'&appKey='+json.nutritionix.users.alex.key,
 	//   method: 'GET',
 	// };
+
+	//GET request to personally hosted json file for cocktail peanuts, regardless of upc sent. 
+	var options = {
+	  host: "students.washington.edu",
+	  path: '/adtroupe/capstone/example.json',
+	  method: 'GET',
+	};
 
 	callback = function(response) {
 		var str = '';

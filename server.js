@@ -58,20 +58,25 @@ function compareRestrictions(id, str, callback) {
 //Gets UPC & Product information from nutritionix API, parses through data, adds certain product data to firebase history.
 //Then appends restriction data to JSON and returns
 app.get('/upc/:upcCode', function(req, res, next) {
+	var array = ['884912129512','077290772009','051000167750','015300430532','041196010008','027271112287','028400039796','070292153210','044000031107','021000658831','016000264694'];
 	var account = req.query.accountId;
-	//details of api call with upc code
-	// var options = {
-	//   host: "api.nutritionix.com",
-	//   path: '/v1_1/item?upc='+req.params.upcCode+'&appId='+json.nutritionix.users.alex.id+'&appKey='+json.nutritionix.users.alex.key,
-	//   method: 'GET',
-	// };
-
+	var num = req.params.upcCode;
+	var options;
+	if(array.indexOf(num) > -1) {
 	//GET request to personally hosted json file for cocktail peanuts, regardless of upc sent. 
-	var options = {
-	  host: "students.washington.edu",
-	  path: '/adtroupe/capstone/example.json',
-	  method: 'GET',
-	};
+		options = {
+		  host: "students.washington.edu",
+		  path: '/adtroupe/capstone/'+num+'.json',
+		  method: 'GET',
+		};
+	} else {
+	//details of api call with upc code
+		options = {
+		  host: "api.nutritionix.com",
+		  path: '/v1_1/item?upc='+num+'&appId='+json.nutritionix.users.alex.id+'&appKey='+json.nutritionix.users.alex.key,
+		  method: 'GET',
+		};
+	}
 
 	callback = function(response) {
 		var str = '';

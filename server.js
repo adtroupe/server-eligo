@@ -61,6 +61,7 @@ app.get('/upc/:upcCode', function(req, res, next) {
 	var array = ['884912129512','077290772009','051000167750','015300430532','041196010008','027271112287','028400039796','070292153210','044000031107','021000658831','016000264694'];
 	var account = req.query.accountId;
 	var num = req.params.upcCode;
+
 	var options;
 	if(array.indexOf(num) > -1) {
 	//GET request to personally hosted json file for cocktail peanuts, regardless of upc sent. 
@@ -83,6 +84,9 @@ app.get('/upc/:upcCode', function(req, res, next) {
 		response.once('data', function (chunk) {
 			str += chunk;
 			var read = JSON.parse(str);
+			if (read["error_message"]) {
+				res.send(read["error_message"]);
+			};
 			var historyRef = firebase.database().ref("/accounts/"+account+"/history");
 			var dateString = '';
 			var dt = new Date();
